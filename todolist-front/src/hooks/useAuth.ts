@@ -14,7 +14,7 @@ export function useAuth() {
         try {
             const response = await axios.post<LoginResponse>('http://localhost:3000/api/auth/login', credentials);
             setUserData(response.data);
-            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('token', response.data.token);
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data?.error || 'Login failed.');
@@ -30,7 +30,7 @@ export function useAuth() {
         setLoading(true);
         setError("");
         try {
-            await axios.post<SignupRequest>('http://localhost:3000/api/auth/login', data);
+            await axios.post<SignupRequest>('http://localhost:3000/api/auth/signup', data);
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data?.message || 'Sign up failed.');
