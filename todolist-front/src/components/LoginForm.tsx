@@ -6,8 +6,8 @@ export default function LoginForm() {
     const [password, setPassword] = useState("");
 
     return (
-        <form className="flex flex-col space-y-5">
-            <div className="flex items-center gap-2">
+        <form className="flex flex-col space-y-5  pr-6">
+            <div className="flex items-center gap-4">
                 <User />
                 <input
                     value={email}
@@ -16,7 +16,7 @@ export default function LoginForm() {
                     className="rounded-lg grow border p-2 border-orange-800 bg-orange-200 hover:bg-orange-100 text-slate-600 transition-colors duration-600"
                 />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
                 <Key />
                 <input
                     type="password"
