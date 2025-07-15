@@ -22,7 +22,7 @@ export default function AddTodoForm({ onSubmit }: AddTodoFormProps) {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="What needs to be done?"
-                className="rounded-s-md grow border border-gray-400 p-2"
+                className="rounded-s-md grow border border-gray-400 p-2 text-gray-500 bg-white"
             />
             <button
                 type="submit"
