@@ -28,9 +28,9 @@ export default function LoginForm() {
             </div>
 
             <button
-                className="self-center w-32 h-8 rounded-md bg-blue-900 hover:bg-blue-800 text-orange-200 transition-colors duration-600"
+                className="self-center w-32 h-8 rounded-md bg-blue-900 hover:bg-blue-800 text-orange-200 transition-colors duration-600 font-medium"
             >
-                Submit
+                Login
             </button>
         </form>
     );
