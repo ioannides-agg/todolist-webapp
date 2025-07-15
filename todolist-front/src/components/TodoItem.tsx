@@ -15,7 +15,7 @@ export default function TodoItem({ todo, onCompletedChange, onDeletedChange }: T
                     type="checkbox"
                     checked={todo.completed}
                     onChange={(e) => onCompletedChange(todo.id, e.target.checked)}
-                    className="scale-125 bg-orange-50"
+                    className="scale-125 bg-orange-50 hover:size-6 transition-normal duration-400"
                 />
 
                 <span className={todo.completed ? "line-through text-slate-500" : ""}>
@@ -24,7 +24,7 @@ export default function TodoItem({ todo, onCompletedChange, onDeletedChange }: T
             </label>
 
             <button className="ml-auto" onClick={() => onDeletedChange(todo.id)}>
-                <Trash2 size={20} className="text-slate-500" />
+                <Trash2 size={20} className="text-slate-500 hover:size-6 transition-normal duration-400" />
             </button>
         </div>
     )

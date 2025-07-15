@@ -1,17 +1,10 @@
 @import "tailwindcss";
 
-.bg-desert-sand {
-    background-color: #F87060;
-}
+@theme {
+    --color-midnight: #121063;
+    --color-tahiti: #3ab7bf;
+    --color-bermuda: #78dcca;
 
-.bg-dark-blue {
-    background-color: #102542
-}
-
-.text-desert-sand {
-    color: #F87060;
-}
-
-.text-dark-blue {
-    color: #102542
-}
+    --color-desert-sand: #F87060;
+    --color-dark-blue: #102542
+  }

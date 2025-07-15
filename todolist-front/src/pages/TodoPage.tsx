@@ -11,10 +11,10 @@ export default function TodoPage() {
         deleteAllCompletedTodos } = useTodos();
 
     return (
-        <main className="bg-dark-blue h-screen space-y-13 overflow-y-auto">
-            <div className="py-18 bg-desert-sand rounded-b-lg shadow-md shadow-gray-700 mask-b-from-0%">
-                <h1 className="font-mono font-medium text-3xl text-center text-dark-blue tracking-wider relative -top-5">Your Todo's</h1>
-            </div>
+        <main className="h-screen space-y-13 overflow-y-auto bg-gradient-to-b from-desert-sand via-dark-blue to-dark-blue">
+            < div className="py-18" >
+                <h1 className="font-medium text-3xl text-center text-dark-blue tracking-widest">Your To-do's</h1>
+            </div >
             <div className="max-w-lg mx-auto bg-desert-sand rounded-md p-5 space-y-6 shadow-lg shadow-gray-700">
                 <AddTodoForm onSubmit={addTodo} />
                 <TodoList
@@ -23,9 +23,11 @@ export default function TodoPage() {
                     onDeletedChange={setTodoDeleted}
                 />
             </div>
-            {todos.length > 0 && (
-                <TodoSummary todos={todos} deleteAllCompleted={deleteAllCompletedTodos} />
-            )}
-        </main>
+            {
+                todos.length > 0 && (
+                    <TodoSummary todos={todos} deleteAllCompleted={deleteAllCompletedTodos} />
+                )
+            }
+        </main >
     )
 }
