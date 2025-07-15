@@ -10,7 +10,7 @@ export default function TodoSummary({ todos, deleteAllCompleted }: TodoSummaryPr
 
     return (
         <div className="text-center space-y-2">
-            <p className="text-sm font-medium text-desert-sand">
+            <p className="text-sm font-medium text-dark-blue">
                 {completed.length} / {todos.length} completed!
             </p>
 
