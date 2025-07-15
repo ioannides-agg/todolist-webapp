@@ -23,7 +23,7 @@ export default function TodoList({ todos, onCompletedChange, onDeletedChange }: 
                 ))}
             </div>
             {todos.length === 0 && (
-                <p className="text-center text-sm text-gray-500">
+                <p className="text-center text-sm text-slate-600">
                     All done for today!
                 </p>
             )}

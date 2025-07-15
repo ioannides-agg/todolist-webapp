@@ -10,21 +10,21 @@ interface TodoItemProps {
 export default function TodoItem({ todo, onCompletedChange, onDeletedChange }: TodoItemProps) {
     return (
         <div className="flex items-center gap-1">
-            <label className="flex items-center gap-2 border rounded-md p-2 border-gray-400 bg-white hover:bg-slate-50 grow">
+            <label className="flex items-center gap-2 border rounded-md p-2 border-orange-800 bg-orange-200 hover:bg-orange-100 grow text-slate-900">
                 <input
                     type="checkbox"
                     checked={todo.completed}
                     onChange={(e) => onCompletedChange(todo.id, e.target.checked)}
-                    className="scale-125"
+                    className="scale-125 bg-orange-50"
                 />
 
-                <span className={todo.completed ? "line-through text-gray-400" : ""}>
+                <span className={todo.completed ? "line-through text-slate-500" : ""}>
                     {todo.title}
                 </span>
             </label>
 
             <button className="ml-auto" onClick={() => onDeletedChange(todo.id)}>
-                <Trash2 size={20} className="text-gray-500" />
+                <Trash2 size={20} className="text-slate-500" />
             </button>
         </div>
     )
