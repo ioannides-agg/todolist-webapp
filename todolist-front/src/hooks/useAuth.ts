@@ -12,7 +12,7 @@ export function useAuth() {
         setError('');
 
         try {
-            const response = await axios.post<LoginResponse>('http://localhost:3000/api/login', credentials);
+            const response = await axios.post<LoginResponse>('http://localhost:3000/api/auth/login', credentials);
             setUserData(response.data);
             localStorage.setItem('token', response.data.token)
         } catch (error) {
@@ -30,7 +30,7 @@ export function useAuth() {
         setLoading(true);
         setError("");
         try {
-            await axios.post<SignupRequest>('http://localhost:3000/api/login', data);
+            await axios.post<SignupRequest>('http://localhost:3000/api/auth/login', data);
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data?.message || 'Sign up failed.');
