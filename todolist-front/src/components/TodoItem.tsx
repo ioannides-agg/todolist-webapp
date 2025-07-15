@@ -10,7 +10,7 @@ interface TodoItemProps {
 export default function TodoItem({ todo, onCompletedChange, onDeletedChange }: TodoItemProps) {
     return (
         <div className="flex items-center gap-1">
-            <label className="flex items-center gap-2 border rounded-md p-2 border-orange-800 bg-orange-200 hover:bg-orange-100 grow text-slate-900">
+            <label className="flex items-center gap-2 border rounded-md p-2 border-orange-800 bg-orange-200 hover:bg-orange-100 grow text-slate-900 transition-colors duration-600">
                 <input
                     type="checkbox"
                     checked={todo.completed}

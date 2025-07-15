@@ -11,9 +11,9 @@ export default function TodoPage() {
         deleteAllCompletedTodos } = useTodos();
 
     return (
-        <main className="bg-dark-blue h-screen space-y-5 overflow-y-auto">
-            <div className="py-14 bg-desert-sand rounded-b-lg shadow-md shadow-gray-700 mask-b-from-0.5">
-                <h1 className="font-mono font-medium text-3xl text-center text-dark-blue tracking-wider relative -top-4">Your Todo's</h1>
+        <main className="bg-dark-blue h-screen space-y-13 overflow-y-auto">
+            <div className="py-18 bg-desert-sand rounded-b-lg shadow-md shadow-gray-700 mask-b-from-0%">
+                <h1 className="font-mono font-medium text-3xl text-center text-dark-blue tracking-wider relative -top-5">Your Todo's</h1>
             </div>
             <div className="max-w-lg mx-auto bg-desert-sand rounded-md p-5 space-y-6 shadow-lg shadow-gray-700">
                 <AddTodoForm onSubmit={addTodo} />
