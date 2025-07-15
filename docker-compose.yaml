@@ -1,6 +1,7 @@
 services:
   account_db:
     image: postgres
+    container_name: account_db
     environment:
       - POSTGRES_PORT=5432
       - POSTGRES_PASSWORD=admin123
