@@ -1,18 +1,41 @@
 import { useEffect, useState } from "react"
-import { dummyData } from "../data/todos"
+//import { dummyData } from "../data/todos"
 import type { Todo } from "../types/todo";
+import axios from 'axios';
 
-export default function useTodos() {
-      const [todos, setTodos] = useState(() => {
-        const saved: Todo[] = JSON.parse(localStorage.getItem("todos") || "[]");
-        return saved.length > 0 ? saved : dummyData;
-      });
+export default function useTodos(token: string | null) {
+      const [todos, setTodos] = useState<Todo[] | null>(null);
     
-      useEffect(() => {
-        localStorage.setItem("todos", JSON.stringify(todos));
-      }, [todos]);
+        useEffect(() => {
+          const fetchTodos = async () => {
+            if (!token) {
+              console.log("invalid token");
+              return;
+            }
+
+            try {
+              await getAllTodos(token);
+            } catch (err) {
+              console.error('Failed to load todos:', err);
+            }
+          };
+
+          fetchTodos();
+        }, [token]);
+
+      const getAllTodos = async (token: string) => {
+        try {
+            const res = await axios.get<Todo[]>('http://localhost:3001/api/todo/retrieve', {
+                headers: { authorization: `Bearer ${token}`}
+            })
+
+            setTodos(res.data);
+        } catch {
+            setTodos(null);
+        }
+      }
     
-      function setTodoCompleted(id: number, completed: boolean) {
+      /*function setTodoCompleted(id: number, completed: boolean) {
         setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? { ...todo, completed } : todo)));
       }
     
@@ -33,13 +56,14 @@ export default function useTodos() {
     
       function deleteAllCompletedTodos() {
         setTodos((prevTodos) => prevTodos.filter((todo) => !todo.completed));
-      }
+      }*/
 
       return {
+        getAllTodos,
         todos,
-        setTodoCompleted,
-        setTodoDeleted,
-        addTodo,
-        deleteAllCompletedTodos
+        //setTodoCompleted,
+        //setTodoDeleted,
+        //addTodo,
+        //deleteAllCompletedTodos
       }
 }

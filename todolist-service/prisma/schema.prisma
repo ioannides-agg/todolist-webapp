@@ -16,6 +16,7 @@ datasource db {
 
 model todo {
     id Int @id @default(autoincrement())
+    owner Int
     title String
     completed Boolean @default(false)
 }
