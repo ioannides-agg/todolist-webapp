@@ -12,5 +12,19 @@ services:
     volumes:
       - data:/var/lib/postgresql/data
 
+    TodoList_db:
+      image: postgres
+      container_name: todolist_db
+      environment:
+        - POSTGRES_PORT=5432
+        - POSTGRES_PASSWORD=admin123
+        - POSTGRES_USER=postgres
+        - POSTGRES_DB=todolistdb
+      ports:
+        - "5050:5432"
+      volumes:
+        - data:/var/lib/postgresql/todo_data
+
 volumes:
   data:
+  todo_data:

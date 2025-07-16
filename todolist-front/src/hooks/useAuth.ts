@@ -1,21 +1,30 @@
 import axios from 'axios';
 import { useState } from 'react';
-import type { LoginResponse, LoginRequest, SignupRequest } from '../types/auth';
+import type { UserData, LoginRequest, SignupRequest } from '../types/auth';
 
 export function useAuth() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [userData, setUserData] = useState<LoginResponse | null>(null);
+    const [auth, setAuth] = useState(false);
+    const [userData, setUserData] = useState<UserData | null>(null);
+    const [accessToken, setAccessToken] = useState<string | null>(null);
 
     const login = async (credentials: LoginRequest): Promise<void> => {
         setLoading(true);
         setError('');
 
         try {
-            const response = await axios.post<LoginResponse>('http://localhost:3000/api/auth/login', credentials);
-            setUserData(response.data);
-            localStorage.setItem('token', response.data.token);
+            const response = await axios.post('http://localhost:3000/api/auth/login', credentials);
+
+            const token = response.data.accessToken;
+            setAccessToken(token);
+            
+            if (token) {
+                localStorage.setItem('token', response.data.accessToken);
+                console.log(await getProfile(response.data.accessToken));
+            }
         } catch (error) {
+            setAuth(false);
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data?.error || 'Login failed.');
             } else {
@@ -43,15 +52,38 @@ export function useAuth() {
     };
 
     const logout = () => {
+        setAuth(false);
         setUserData(null);
+        setAccessToken(null);
+        localStorage.removeItem('token');
       };
 
+    const getProfile = async (accessToken: string | null): Promise<boolean> => {
+        try {
+            const res = await axios.get<UserData>('http://localhost:3000/api/auth/me', {
+                headers: { authorization: `Bearer ${accessToken}`}
+            })
+
+            setUserData(res.data)
+            setAuth(true);
+            return true;
+        } catch {
+            setAuth(false);
+            setUserData(null);
+            setAccessToken(null);
+            return false;
+        }
+    }
+
     return {
-        userData, //userData right now is irrelevant but can be use later to store info on the user when fetched with a /me or /profile route
+        userData,
+        auth,
+        accessToken,
         login,
         signup,
         logout,
         loading,
         error,
+        getProfile,
       };
 }
