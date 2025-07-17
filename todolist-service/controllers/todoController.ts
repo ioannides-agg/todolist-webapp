@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Todo } from '../types/todo';
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient} from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const retrieve = async (req: Request, res: Response) => {
@@ -36,5 +36,5 @@ export const add = async (req : Request, res: Response) => {
 
     if (!added) return res.status(422);
  
-    return res.status(201).json(added);
+    return res.status(201).json(added as Todo);
 };

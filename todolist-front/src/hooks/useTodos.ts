@@ -23,7 +23,7 @@ export default function useTodos(token: string | null) {
           fetchTodos();
         }, [token]);
 
-      const getAllTodos = async (token: string) => {
+      const getAllTodos = async (token: string): Promise<void> => {
         try {
             const res = await axios.get<Todo[]>('http://localhost:3001/api/todo/retrieve', {
                 headers: { authorization: `Bearer ${token}`}
@@ -33,6 +33,18 @@ export default function useTodos(token: string | null) {
         } catch {
             setTodos(null);
         }
+      }
+
+      const addTodo = async (title: string): Promise<void> => {
+        const res = await axios.post<Todo>('http://localhost:3001/api/todo/add', {title}, {
+                headers: { authorization: `Bearer ${token}`},
+            });
+
+        if (!res) return;
+        setTodos((prevTodos) => prevTodos? [
+          res.data,
+          ...prevTodos
+        ] : [res.data]);
       }
     
       /*function setTodoCompleted(id: number, completed: boolean) {
@@ -61,6 +73,7 @@ export default function useTodos(token: string | null) {
       return {
         getAllTodos,
         todos,
+        addTodo,
         //setTodoCompleted,
         //setTodoDeleted,
         //addTodo,

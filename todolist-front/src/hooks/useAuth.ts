@@ -21,7 +21,7 @@ export function useAuth() {
             
             if (token) {
                 localStorage.setItem('token', response.data.accessToken);
-                console.log(await getProfile(response.data.accessToken));
+                await getProfile(response.data.accessToken);
             }
         } catch (error) {
             setAuth(false);
@@ -71,6 +71,7 @@ export function useAuth() {
             setAuth(false);
             setUserData(null);
             setAccessToken(null);
+            localStorage.clear();
             return false;
         }
     }
