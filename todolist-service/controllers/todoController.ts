@@ -34,7 +34,28 @@ export const add = async (req : Request, res: Response) => {
         data: { owner: userId, title: title}
     });
 
-    if (!added) return res.status(422);
+    if (!added) return res.sendStatus(500);
  
     return res.status(201).json(added as Todo);
+};
+
+export const updateCompleteness = async (req : Request, res: Response) => {
+    const userId = (req as any).userId;
+    const {todoId, state} = req.body.payload;
+
+    if (!userId) return res.sendStatus(401);
+    if (typeof state !== 'boolean' || typeof todoId !== 'number') return res.sendStatus(422);
+
+    const updated = await prisma.todo.update({
+        where: {
+            id: todoId,
+            owner: userId
+        }, data : {
+            completed: state
+        }
+    })
+
+    if (!updated) return res.sendStatus(404);
+ 
+    return res.sendStatus(201);
 };

@@ -5,7 +5,7 @@ import useTodos from "../hooks/useTodos";
 
 export default function TodoPage() {
     const token = localStorage.getItem('token')
-    const { todos, addTodo } = useTodos(token);
+    const { todos, addTodo, setTodoCompleted } = useTodos(token);
 
     return (
         <main className="h-screen space-y-13 overflow-y-auto bg-gradient-to-b from-desert-sand to-orange-300">
@@ -16,6 +16,7 @@ export default function TodoPage() {
                 <AddTodoForm onSubmit={addTodo}/>
                 <TodoList
                     todos={todos}
+                    onCompletedChange={setTodoCompleted}
                 />
             </div>
             {/*

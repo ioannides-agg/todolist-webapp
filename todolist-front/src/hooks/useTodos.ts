@@ -36,15 +36,46 @@ export default function useTodos(token: string | null) {
       }
 
       const addTodo = async (title: string): Promise<void> => {
-        const res = await axios.post<Todo>('http://localhost:3001/api/todo/add', {title}, {
-                headers: { authorization: `Bearer ${token}`},
-            });
+        try {
+          const res = await axios.post<Todo>('http://localhost:3001/api/todo/add', {title}, 
+            {headers: { authorization: `Bearer ${token}`}});
 
-        if (!res) return;
-        setTodos((prevTodos) => prevTodos? [
-          res.data,
-          ...prevTodos
-        ] : [res.data]);
+          if (!res) return;
+          setTodos((prevTodos) => prevTodos? [
+            res.data,
+            ...prevTodos
+          ] : [res.data]);
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log(error)
+            } else {
+                console.log(error)
+            }
+        }
+      }
+
+
+      const setTodoCompleted = async (id: number, completed: boolean): Promise<void> => {
+        try {
+          const payload = {
+            todoId: id,
+            state: completed
+          }
+          await axios.put('http://localhost:3001/api/todo/update', {payload}, 
+            {headers: { authorization: `Bearer ${token}`}});
+          
+          setTodos((prevTodos) => {
+            if (!prevTodos) return []; 
+            return prevTodos.map((todo) => (todo.id === id ? { ...todo, completed } : todo))
+          }); //update the todo list object seperately to minimize read operations
+
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log(error)
+            } else {
+                console.log(error)
+            }
+        }
       }
     
       /*function setTodoCompleted(id: number, completed: boolean) {
@@ -74,7 +105,7 @@ export default function useTodos(token: string | null) {
         getAllTodos,
         todos,
         addTodo,
-        //setTodoCompleted,
+        setTodoCompleted,
         //setTodoDeleted,
         //addTodo,
         //deleteAllCompletedTodos

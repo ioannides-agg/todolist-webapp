@@ -18,7 +18,7 @@ export function authToken(req : Request, res : Response, next : NextFunction) {
             const payload = decoded as JwtPayload;
 
             (req as any).userId = payload.userId; //forward the data
-            console.log(payload.userId)
+            //console.log(payload.userId)
             next();
     });
 }
