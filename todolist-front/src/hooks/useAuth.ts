@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import type { UserData, LoginRequest, SignupRequest } from '../types/auth';
 
+export const axiosInstance = axios.create();
+
 export function useAuth() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -9,6 +11,31 @@ export function useAuth() {
     const [userData, setUserData] = useState<UserData | null>(null);
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [createdAccount, setCreatedAccount] = useState(false);
+
+    axiosInstance.interceptors.response.use(
+        response => response,
+        async error => {
+            const originalRequest = error.config;
+            if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true; // Mark the request as retried to avoid infinite loops.
+            try {
+                const response = await axios.get('http://localhost:3000/api/auth/refresh', {withCredentials: true});
+                setAccessToken(response.data.accessToken);
+
+                //localStorage.setItem('token', response.data.accessToken);
+
+                return axiosInstance(originalRequest); 
+                
+            } catch (refreshError) {
+                logout()
+
+                //window.location.href = '/';
+                return Promise.reject(refreshError);
+            }
+            }
+            return Promise.reject(error); // For all other errors, return the error as is.
+        }
+        );
 
     const login = async (credentials: LoginRequest): Promise<void> => {
         setLoading(true);
@@ -21,7 +48,7 @@ export function useAuth() {
             setAccessToken(token);
             
             if (token) {
-                localStorage.setItem('token', response.data.accessToken);
+                //localStorage.setItem('token', response.data.accessToken);
                 await getProfile(response.data.accessToken);
             }
         } catch (error) {
@@ -56,10 +83,12 @@ export function useAuth() {
     };
 
     const logout = () => {
+        axios.get('http://localhost:3000/api/auth/logout', {withCredentials: true});
+
         setAuth(false);
         setUserData(null);
         setAccessToken(null);
-        localStorage.removeItem('token');
+        //localStorage.removeItem('token');
       };
 
     const getProfile = async (accessToken: string | null): Promise<boolean> => {
@@ -75,7 +104,7 @@ export function useAuth() {
             setAuth(false);
             setUserData(null);
             setAccessToken(null);
-            localStorage.clear();
+            //localStorage.clear();
             return false;
         }
     }

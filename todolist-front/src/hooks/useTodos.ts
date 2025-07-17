@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 //import { dummyData } from "../data/todos"
 import type { Todo } from "../types/todo";
 import axios from 'axios';
+import { axiosInstance } from "./useAuth";
 
 export default function useTodos(token: string | null) {
       const [todos, setTodos] = useState<Todo[] | null>(null);
@@ -9,7 +10,6 @@ export default function useTodos(token: string | null) {
         useEffect(() => {
           const fetchTodos = async () => {
             if (!token) {
-              console.error("invalid token");
               return;
             }
 
@@ -25,7 +25,7 @@ export default function useTodos(token: string | null) {
 
       const getAllTodos = async (token: string): Promise<void> => {
         try {
-            const res = await axios.get<Todo[]>('http://localhost:3001/api/todo/retrieve', {
+            const res = await axiosInstance.get<Todo[]>('http://localhost:3001/api/todo/retrieve', {
                 headers: { authorization: `Bearer ${token}`}
             })
 
@@ -37,7 +37,7 @@ export default function useTodos(token: string | null) {
 
       const addTodo = async (title: string): Promise<void> => {
         try {
-          const res = await axios.post<Todo>('http://localhost:3001/api/todo/add', {title}, 
+          const res = await axiosInstance.post<Todo>('http://localhost:3001/api/todo/add', {title}, 
             {headers: { authorization: `Bearer ${token}`}});
 
           if (!res) return;
@@ -61,7 +61,7 @@ export default function useTodos(token: string | null) {
             todoId: id,
             state: completed
           }
-          await axios.put('http://localhost:3001/api/todo/update', {payload}, 
+          await axiosInstance.put('http://localhost:3001/api/todo/update', {payload}, 
             {headers: { authorization: `Bearer ${token}`}});
           
           setTodos((prevTodos) => {
@@ -80,7 +80,7 @@ export default function useTodos(token: string | null) {
 
       const setTodoDeleted = async (id: number): Promise<void> => {
         try {
-            await axios.delete('http://localhost:3001/api/todo/deleteOne', 
+            await axiosInstance.delete('http://localhost:3001/api/todo/deleteOne', 
             {headers: { authorization: `Bearer ${token}` },
              data: { id }
             });
@@ -101,7 +101,7 @@ export default function useTodos(token: string | null) {
 
       const deleteAllCompletedTodos = async (): Promise<void> => {
         try {
-          await axios.delete('http://localhost:3001/api/todo/deleteMany', 
+          await axiosInstance.delete('http://localhost:3001/api/todo/deleteMany', 
             {headers: { authorization: `Bearer ${token}` }});
 
           setTodos((prevTodos) => {

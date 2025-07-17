@@ -8,7 +8,7 @@ function authToken(req, res, next) {
     if (token == null) return res.sendStatus(401);
 
     jwt.verify(token, process.env.ACCESS_SECRET, (err, decodedId) => {
-        if (err) return res.sendStatus(403); //invalid token
+        if (err) return res.sendStatus(401); //invalid token
             req.userId = decodedId.userId;
             next();
     });

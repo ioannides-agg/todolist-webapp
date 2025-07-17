@@ -7,9 +7,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function TodoPage() {
-    const { logout } = useAuthContext();
-    const token = localStorage.getItem('token');
-    const { todos, addTodo, setTodoCompleted, setTodoDeleted, deleteAllCompletedTodos } = useTodos(token);
+    const { logout, accessToken } = useAuthContext();
+    const { todos, addTodo, setTodoCompleted, setTodoDeleted, deleteAllCompletedTodos } = useTodos(accessToken);
 
     const nav = useNavigate();
 

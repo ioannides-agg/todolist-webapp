@@ -13,7 +13,7 @@ export function authToken(req : Request, res : Response, next : NextFunction) {
     if (token == null) return res.sendStatus(401);
 
     jwt.verify(token, process.env.ACCESS_SECRET as string, (err, decoded) => {
-        if (err) return res.sendStatus(403); //invalid token
+        if (err) return res.sendStatus(401); //invalid token
 
             const payload = decoded as JwtPayload;
 
