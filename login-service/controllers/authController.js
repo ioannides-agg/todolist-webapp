@@ -31,7 +31,7 @@ exports.login = async (req, res) => {
 
     let refreshToken;
 
-    if (user.refreshToken) {
+    if (user.refreshToken /*&& jwt.verify*/) {
         refreshToken = user.refreshToken;
     } else {
         refreshToken = jwt.sign({"userId": user.id}, process.env.REFRESH_SECRET, {expiresIn: '1d'});
@@ -48,7 +48,6 @@ exports.login = async (req, res) => {
     }
 
     res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-    console.log(accessToken);
     res.json({accessToken: accessToken});
 }
 

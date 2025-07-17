@@ -15,7 +15,7 @@ export function useAuth() {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:3000/api/auth/login', credentials);
+            const response = await axios.post('http://localhost:3000/api/auth/login', credentials, {withCredentials: true});
 
             const token = response.data.accessToken;
             setAccessToken(token);

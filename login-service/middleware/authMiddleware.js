@@ -10,7 +10,6 @@ function authToken(req, res, next) {
     jwt.verify(token, process.env.ACCESS_SECRET, (err, decodedId) => {
         if (err) return res.sendStatus(403); //invalid token
             req.userId = decodedId.userId;
-            console.log(decodedId.userId)
             next();
     });
 }
