@@ -1,7 +1,6 @@
 import { Key, User } from "lucide-react";
 import { useState } from "react";
 import type { SignupRequest } from "../types/auth";
-import { useNavigate } from "react-router-dom";
 
 interface SignupFormProps {
     onSubmit: (data: SignupRequest) => void;
@@ -12,8 +11,6 @@ export default function SignupForm({ onSubmit, error }: SignupFormProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const navigate = useNavigate()
-
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         
@@ -21,8 +18,6 @@ export default function SignupForm({ onSubmit, error }: SignupFormProps) {
 
         const d : SignupRequest = {email: email, password: password};
         onSubmit(d);
-
-        if (error !== '') navigate('/Login/')
     }
 
     return (

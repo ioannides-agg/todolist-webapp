@@ -8,6 +8,7 @@ export function useAuth() {
     const [auth, setAuth] = useState(false);
     const [userData, setUserData] = useState<UserData | null>(null);
     const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [createdAccount, setCreatedAccount] = useState(false);
 
     const login = async (credentials: LoginRequest): Promise<void> => {
         setLoading(true);
@@ -40,12 +41,15 @@ export function useAuth() {
         setError("");
         try {
             await axios.post<SignupRequest>('http://localhost:3000/api/auth/signup', data);
+            setCreatedAccount(true);
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data?.message || 'Sign up failed.');
             } else {
                 setError('Sign up failed. Unknown error');
             }
+
+            setCreatedAccount(false);
         } finally {
             setLoading(false);
         }
@@ -86,5 +90,6 @@ export function useAuth() {
         loading,
         error,
         getProfile,
+        createdAccount
       };
 }
