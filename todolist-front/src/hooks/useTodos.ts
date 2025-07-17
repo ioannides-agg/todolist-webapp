@@ -47,9 +47,9 @@ export default function useTodos(token: string | null) {
           ] : [res.data]);
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                console.log(error)
+              console.log(error)
             } else {
-                console.log(error)
+              console.log(error)
             }
         }
       }
@@ -65,16 +65,56 @@ export default function useTodos(token: string | null) {
             {headers: { authorization: `Bearer ${token}`}});
           
           setTodos((prevTodos) => {
-            if (!prevTodos) return []; 
+            if (!prevTodos) return prevTodos; 
             return prevTodos.map((todo) => (todo.id === id ? { ...todo, completed } : todo))
           }); //update the todo list object seperately to minimize read operations
 
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                console.log(error)
+              console.log(error)
             } else {
-                console.log(error)
+              console.log(error)
             }
+        }
+      }
+
+      const setTodoDeleted = async (id: number): Promise<void> => {
+        try {
+            await axios.delete('http://localhost:3001/api/todo/deleteOne', 
+            {headers: { authorization: `Bearer ${token}` },
+             data: { id }
+            });
+
+          setTodos((prevTodos) => {
+            if(!prevTodos) return prevTodos;
+
+            return prevTodos.filter((todo) => todo.id !== id)
+          });
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            console.log(error)
+          } else {
+            console.log(error)
+          }
+        }
+      }
+
+      const deleteAllCompletedTodos = async (): Promise<void> => {
+        try {
+          await axios.delete('http://localhost:3001/api/todo/deleteMany', 
+            {headers: { authorization: `Bearer ${token}` }});
+
+          setTodos((prevTodos) => {
+            if(!prevTodos) return prevTodos;
+            
+            return prevTodos.filter((todo) => !todo.completed)
+          });
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            console.log(error)
+          } else {
+            console.log(error)
+          }
         }
       }
     
@@ -106,8 +146,7 @@ export default function useTodos(token: string | null) {
         todos,
         addTodo,
         setTodoCompleted,
-        //setTodoDeleted,
-        //addTodo,
-        //deleteAllCompletedTodos
+        setTodoDeleted,
+        deleteAllCompletedTodos
       }
 }

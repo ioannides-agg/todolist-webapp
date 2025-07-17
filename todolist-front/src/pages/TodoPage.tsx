@@ -1,11 +1,11 @@
 import AddTodoForm from "../components/AddTodoForm";
 import TodoList from "../components/TodoList";
-//import TodoSummary from "../components/TodoSummary";
+import TodoSummary from "../components/TodoSummary";
 import useTodos from "../hooks/useTodos";
 
 export default function TodoPage() {
     const token = localStorage.getItem('token')
-    const { todos, addTodo, setTodoCompleted } = useTodos(token);
+    const { todos, addTodo, setTodoCompleted, setTodoDeleted, deleteAllCompletedTodos } = useTodos(token);
 
     return (
         <main className="h-screen space-y-13 overflow-y-auto bg-gradient-to-b from-desert-sand to-orange-300">
@@ -17,13 +17,13 @@ export default function TodoPage() {
                 <TodoList
                     todos={todos}
                     onCompletedChange={setTodoCompleted}
+                    onDeletedChange={setTodoDeleted}
                 />
             </div>
-            {/*
-                todos.length > 0 && (
+            {
+                todos && todos.length > 0 && (
                     <TodoSummary todos={todos} deleteAllCompleted={deleteAllCompletedTodos} />
-                )*/
-               <div></div>
+                )
             }
         </main >
     )

@@ -57,5 +57,41 @@ export const updateCompleteness = async (req : Request, res: Response) => {
 
     if (!updated) return res.sendStatus(404);
  
-    return res.sendStatus(201);
+    return res.sendStatus(204);
 };
+
+export const deleteOne = async (req: Request, res: Response) => {
+    const userId = (req as any).userId;
+    const todoId = req.body.id;
+
+    if(!userId) return res.status(401);
+    if(typeof todoId !== 'number') return res.sendStatus(422);
+
+    const deleted = await prisma.todo.delete({
+        where: {
+            id: todoId,
+            owner: userId
+        }
+    })
+
+    if (!deleted) return res.sendStatus(404);
+
+    return res.sendStatus(204);
+}
+
+export const deleteMany = async (req: Request, res: Response) => {
+    const userId = (req as any).userId;
+
+    if(!userId) return res.status(401);
+
+    const deleted = await prisma.todo.deleteMany({
+        where: {
+            owner: userId,
+            completed: true
+        }
+    })
+
+    if (deleted.count === 0) return res.sendStatus(404);
+
+    return res.sendStatus(204);
+}

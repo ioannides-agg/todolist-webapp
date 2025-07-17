@@ -4,10 +4,10 @@ import TodoItem from "./TodoItem";
 interface TodoListProps {
     todos: Todo[] | null;
     onCompletedChange: (id: number, completed: boolean) => void;
-    /*onDeletedChange: (id: number) => void;*/
+    onDeletedChange: (id: number) => void;
 }
 
-export default function TodoList({ todos, onCompletedChange }: TodoListProps) {
+export default function TodoList({ todos, onCompletedChange, onDeletedChange }: TodoListProps) {
 
     const todoSorted = todos? todos.sort((a, b) => {
         if (a.completed === b.completed) {
@@ -20,7 +20,7 @@ export default function TodoList({ todos, onCompletedChange }: TodoListProps) {
         <>
             <div className="space-y-2">
                 {todoSorted && todoSorted.map((todo) => (
-                    <TodoItem key={todo.id} todo={todo} onCompletedChange={onCompletedChange}/>
+                    <TodoItem key={todo.id} todo={todo} onCompletedChange={onCompletedChange} onDeletedChange={onDeletedChange}/>
                 ))}
             </div>
             {todos && todos.length === 0 && (
