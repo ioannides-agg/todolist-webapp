@@ -1,5 +1,5 @@
 import LoginForm from "../components/LoginForm";
-import { useAuth } from "../hooks/useAuth";
+import { useAuthContext } from "../hooks/useAuthContext";
 import LoaderOverlay from "../components/LoaderOverlay";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ export default function LoginPage() {
         auth,
         error,
         loading,
-    } = useAuth();
+    } = useAuthContext();
 
     const navigate = useNavigate();
 

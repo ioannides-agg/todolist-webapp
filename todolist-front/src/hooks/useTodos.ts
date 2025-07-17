@@ -9,7 +9,7 @@ export default function useTodos(token: string | null) {
         useEffect(() => {
           const fetchTodos = async () => {
             if (!token) {
-              console.log("invalid token");
+              console.error("invalid token");
               return;
             }
 
